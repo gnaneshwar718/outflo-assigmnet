@@ -9,8 +9,12 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+mongoose.connect(process.env.MONGO_URI!)
+    .then(() => console.log('✅ DB Connected'))
+    .catch((err) => {
+        console.error('❌ DB Connection Error:', err.message);
+    });
 
-mongoose.connect(process.env.MONGO_URI!).then(() => console.log('DB Connected'));
 
 app.use('/campaigns', campaignRoutes);
 app.use('/personalized-message', aiRoutes);
